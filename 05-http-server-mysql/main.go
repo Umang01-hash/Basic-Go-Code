@@ -44,7 +44,7 @@ func main() {
 			fmt.Println("Unmarshal error", err)
 		}
 
-		// Query returns all matching rows as a Rows struct your code can loop over
+		// Query inserts the student details in db
 		_, err := db.Exec("INSERT INTO students (enrollment_number,name) values(?,?)", d.EnrollmentNumber, d.Name)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
