@@ -6,16 +6,18 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type data struct {
-	EnrollmentNumber int
-	Name             string
+	EnrollmentNumber int    `json:"enrollmentNumber"`
+	Name             string `json:"name"`
 }
 
 // conn creates connection to the SQL database
 func conn() (*sql.DB, error) {
-	db, err := sql.Open("mysql", "root:password@tcp(localhost:2001)/Students")
+	db, err := sql.Open("mysql", "root:password@tcp(localhost:3306)/Students")
 	if err != nil {
 		fmt.Println("Error connecting to database:", err)
 		return nil, err
@@ -29,19 +31,21 @@ func main() {
 		fmt.Printf("Couldn't initialize database")
 	}
 
-	// Define a handler function to fetch entries from student table and return as HTTP response
+	// Define a handler function to create a student entry
 	http.HandleFunc("/post", func(w http.ResponseWriter, r *http.Request) {
 		var d data
 
+		// Reading the request body
 		reqBody, _ := io.ReadAll(r.Body)
 
+		// Converting json body to go struct
 		err = json.Unmarshal(reqBody, &d)
 		if err != nil {
 			fmt.Println("Unmarshal error", err)
 		}
 
 		// Query returns all matching rows as a Rows struct your code can loop over
-		_, err := db.Exec("INSERT INTO students (enrollment_no,name) values(?,?)", d.EnrollmentNumber, d.Name)
+		_, err := db.Exec("INSERT INTO students (enrollment_number,name) values(?,?)", d.EnrollmentNumber, d.Name)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
