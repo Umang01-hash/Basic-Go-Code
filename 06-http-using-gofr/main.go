@@ -10,9 +10,12 @@ func eventHandler(ctx *gofr.Context) (interface{}, error) {
 }
 
 func main() {
+	// Creating GoFr's instance
 	app := gofr.New()
 
+	// Get endpoint using GoFr
 	app.GET("/event", eventHandler)
 
+	// Starting the server
 	app.Start()
 }
