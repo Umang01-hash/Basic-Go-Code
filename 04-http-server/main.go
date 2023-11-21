@@ -20,15 +20,11 @@ func main() {
 	// Register handler function for `/event` in default ServeMux
 	http.HandleFunc("/event", eventHandler)
 
-	// Define the HTTP port
-	port := 8080
-	serverAddress := fmt.Sprintf(":%d", port)
-
 	// Inform the user that the server is running
-	fmt.Printf("Server is running on http://localhost%s\n", serverAddress)
+	fmt.Println("Server is running on http://localhost:8080")
 
 	// Start the HTTP server
-	err := http.ListenAndServe(serverAddress, nil)
+	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		fmt.Printf("Server encountered an error: %s\n", err)
 	}
