@@ -7,7 +7,7 @@ type rectangle struct {
 	length, breadth int
 }
 
-// Variadic function to calculate the sum of integers
+// function to calculate the sum of integers
 func calculateSum(num1, num2 int) int {
 	return num1 + num2
 }
@@ -24,5 +24,5 @@ func main() {
 
 	// Method call
 	r := rectangle{length: 10, breadth: 20}
-	fmt.Printf("Area of rectangle: %v", r.area())
+	fmt.Printf("Area of rectangle: %d", r.area())
 }

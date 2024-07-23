@@ -17,5 +17,5 @@ func main() {
 	app.GET("/event", eventHandler)
 
 	// Starting the server
-	app.Start()
+	app.Run()
 }

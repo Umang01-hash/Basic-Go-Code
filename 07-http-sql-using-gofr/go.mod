@@ -1,6 +1,8 @@
 module httpsqlusinggofr
 
-go 1.19
+go 1.21
+
+toolchain go1.21.3
 
 require gofr.dev v1.0.0
 

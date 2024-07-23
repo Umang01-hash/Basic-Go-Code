@@ -8,7 +8,9 @@ import (
 // eventHandler defines the functionality for the handler
 func eventHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
-		w.WriteHeader(http.StatusMethodNotAllowed)
+		w.WriteHeader(http.StatusBadRequest)
+
+		w.Write([]byte("invalid method"))
 		return
 	}
 

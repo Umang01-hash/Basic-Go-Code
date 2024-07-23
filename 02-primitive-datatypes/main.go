@@ -5,7 +5,7 @@ import "fmt"
 func main() {
 	// declaring variable using var
 	var name string
-	name = "JIIT"
+	name = "GoFr Event"
 
 	// %s prints the string
 	fmt.Printf("Welcome to %v\n", name)
@@ -22,4 +22,12 @@ func main() {
 	// declaring variable using shorthand declaration
 	flag := true
 	fmt.Printf("b: %v %T\n", flag, flag)
+
+	// Byte - alias for uint8
+	var x byte = 'A'
+	fmt.Printf("x: %v %T\n", x, x)
+
+	// Rune - alias for int32
+	var y rune = 'क' // This will overflow, if byte.
+	fmt.Printf("y: %v %T\n", y, y)
 }
