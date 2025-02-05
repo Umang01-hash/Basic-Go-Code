@@ -1,9 +1,10 @@
 package main
 
 import (
-	"gofr.dev/pkg/errors"
-	"gofr.dev/pkg/gofr"
 	"strings"
+
+	"gofr.dev/pkg/gofr"
+	"gofr.dev/pkg/gofr/datasource"
 )
 
 type data struct {
@@ -16,7 +17,7 @@ func main() {
 	app := gofr.New()
 
 	// POST endpoint using GoFr
-	app.POST("/post", func(ctx *gofr.Context) (interface{}, error) {
+	app.POST("/students", func(ctx *gofr.Context) (interface{}, error) {
 		var d data
 
 		// Reading and converting request data to go struct type
@@ -26,20 +27,20 @@ func main() {
 		}
 
 		// Insert operation for database
-		_, dbErr := ctx.DB().Exec("INSERT INTO students (enrollment_number,name) values(?,?)", d.EnrollmentNumber, d.Name)
+		_, dbErr := ctx.SQL.Exec("INSERT INTO students (enrollment_no,name) values(?,?)", d.EnrollmentNumber, d.Name)
 		if dbErr != nil {
-			return nil, &errors.DB{Err: err}
+			return nil, datasource.ErrorDB{Err: dbErr}
 		}
 
 		return "Student added successfully!", nil
 	})
 
 	// GET endpoint using GoFr
-	app.GET("/get", func(ctx *gofr.Context) (interface{}, error) {
+	app.GET("/students", func(ctx *gofr.Context) (interface{}, error) {
 		// Query returns all matching rows
-		rows, err := ctx.DB().Query("SELECT name from students;")
+		rows, err := ctx.SQL.Query("SELECT name from students;")
 		if err != nil {
-			return nil, errors.DB{Err: err}
+			return nil, datasource.ErrorDB{Err: err}
 		}
 		defer rows.Close()
 
@@ -52,7 +53,7 @@ func main() {
 			// Scan copies the rows fetched
 			err := rows.Scan(&name)
 			if err != nil {
-				return nil, errors.DB{Err: err}
+				return nil, datasource.ErrorDB{Err: err}
 			}
 
 			responseText += name + ","
@@ -65,5 +66,5 @@ func main() {
 	})
 
 	// Starting the server
-	app.Start()
+	app.Run()
 }

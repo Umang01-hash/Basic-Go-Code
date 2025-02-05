@@ -8,9 +8,9 @@ import (
 // eventHandler defines the functionality for the handler
 func eventHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
-		w.WriteHeader(http.StatusBadRequest)
+		w.WriteHeader(http.StatusMethodNotAllowed)
 
-		w.Write([]byte("invalid method"))
+		w.Write([]byte("invalid method")) // [] - notation for slice data set in golang
 		return
 	}
 
@@ -23,10 +23,10 @@ func main() {
 	http.HandleFunc("/event", eventHandler)
 
 	// Inform the user that the server is running
-	fmt.Println("Server is running on http://localhost:8080")
+	fmt.Println("Server is running on http://localhost:8020")
 
 	// Start the HTTP server
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8020", nil)
 	if err != nil {
 		fmt.Printf("Server encountered an error: %s\n", err)
 	}
